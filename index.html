@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🐒 Singe Social</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg bg-warning navbar-light">
+    <div class="container">
+      <a class="navbar-brand" href="#">🐒</a>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#">🏠</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="music.html">🎵</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="reels.html">🎥</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">📸</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Section des Posts -->
+  <section class="container my-5">
+    <div class="row">
+      <div class="col-md-8 mx-auto">
+        <!-- Post Example -->
+        <div class="card">
+          <img src="assets/img/monkey1.avif" class="card-img-top" alt="Post 1">
+          <div class="card-body">
+            <div class="action-buttons">
+              <button onclick="showBananas()">🍌</button>
+              <button onclick="toggleEmojiCommentSection()">🙉</button>
+              <button>🔄</button>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <img src="assets/img/monkey2.jpg" class="card-img-top" alt="Post 2">
+          <div class="card-body">
+            <div class="action-buttons">
+              <button onclick="showBananas()">🍌</button>
+              <button onclick="toggleEmojiCommentSection()">🙉</button>
+              <button>🔄</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section des commentaires avec des émojis -->
+  <div class="comment-section" id="emojiCommentSection">
+    <h5>Choisissez un émoji :</h5>
+    <div class="emoji-options">
+      <button onclick="submitEmojiComment('🙈')">🙈</button>
+      <button onclick="submitEmojiComment('🙉')">🙉</button>
+      <button onclick="submitEmojiComment('🙊')">🙊</button>
+      <button onclick="submitEmojiComment('🐒')">🐒</button>
+      <button onclick="submitEmojiComment('🦧')">🦧</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

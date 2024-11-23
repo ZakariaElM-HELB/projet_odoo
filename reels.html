@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reels</title>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  >
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: black;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .navbar {
+      width: 100%;
+      position: fixed;
+      top: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 20px;
+    }
+
+    .navbar a {
+      color: white;
+      font-size: 2.5rem;
+      text-decoration: none;
+    }
+
+    .navbar a:hover {
+      transform: scale(1.2);
+      transition: transform 0.2s ease;
+    }
+
+    .reel-container {
+      height: 100vh;
+      width: 100%;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .reel-video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain; /* Ajuste la vidéo pour qu'elle tienne dans l'écran */
+      background-color: black; /* Fond noir pour les vidéos non plein écran */
+    }
+
+    .controls {
+      position: absolute;
+      bottom: 10%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .controls button {
+      font-size: 3rem;
+      background: none;
+      border: none;
+      color: white;
+      text-shadow: 0 0 5px black;
+      cursor: pointer;
+    }
+
+    .controls button:hover {
+      transform: scale(1.2);
+      transition: transform 0.2s ease;
+    }
+
+    .nav-buttons {
+      position: absolute;
+      width: 100%;
+      top: 50%;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+      padding: 0 10px;
+    }
+
+    .nav-buttons button {
+      background: rgba(0, 0, 0, 0.5);
+      border: none;
+      color: white;
+      font-size: 3rem;
+      cursor: pointer;
+      padding: 10px;
+    }
+
+    .nav-buttons button:hover {
+      background: rgba(0, 0, 0, 0.8);
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <div class="navbar">
+    <a href="index.html">🏠</a>
+    <a href="#">📹</a>
+  </div>
+
+  <!-- Reel Container -->
+  <div class="reel-container">
+    <video class="reel-video" autoplay muted loop>
+      <source src="assets/videos/video1.mp4" type="video/mp4">
+    </video>
+
+    <!-- Boutons d'interaction -->
+    <div class="controls">
+      <button class="like-button">🍌</button>
+      <button class="comment-button">🙉</button>
+      <button class="share-button">🔄</button>
+    </div>
+
+    <!-- Boutons de navigation -->
+    <div class="nav-buttons">
+      <button class="prev-button">⏪</button>
+      <button class="next-button">⏩</button>
+    </div>
+  </div>
+
+  <script>
+    // Liste des vidéos
+    const videos = [
+      "assets/videos/video1.mp4",
+      "assets/videos/video2.mp4",
+      "assets/videos/video3.mp4"
+    ];
+
+    let currentIndex = 0;
+    const videoElement = document.querySelector(".reel-video");
+
+    // Charger une vidéo par index
+    function loadVideo(index) {
+      currentIndex = (index + videos.length) % videos.length; // Cycle les vidéos
+      videoElement.src = videos[currentIndex];
+      videoElement.play();
+    }
+
+    // Navigation entre les vidéos
+    document.querySelector(".prev-button").addEventListener("click", () => loadVideo(currentIndex - 1));
+    document.querySelector(".next-button").addEventListener("click", () => loadVideo(currentIndex + 1));
+
+    // Gestion du bouton "like"
+    document.querySelector(".like-button").addEventListener("click", () => {
+      alert("🍌 Like !");
+    });
+
+    // Gestion du bouton "comment"
+    document.querySelector(".comment-button").addEventListener("click", () => {
+      alert("🙉 Comment !");
+    });
+
+    // Gestion du bouton "repost"
+    document.querySelector(".share-button").addEventListener("click", () => {
+      const userId = 1; // Exemple d'utilisateur fictif
+      const videoPath = videos[currentIndex]; // Vidéo actuelle
+
+      // Appel au backend pour enregistrer le repost
+      fetch("repost_video.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user_id: userId, video_path: videoPath }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.success) alert("🔄 Reposté !");
+          else alert("❌ Erreur : " + data.error);
+        })
+        .catch((error) => console.error("Erreur :", error));
+    });
+  </script>
+</body>
+</html>
