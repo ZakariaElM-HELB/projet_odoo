@@ -1,2 +1,0 @@
-# projet_odoo
-TABON

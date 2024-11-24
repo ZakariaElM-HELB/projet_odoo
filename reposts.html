@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🔄 </title>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  >
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+      font-family: Arial, sans-serif;
+    }
+
+    .profile-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #ffcc00;
+      padding: 30px;
+    }
+
+    .profile-picture {
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      border: 5px solid white;
+      margin-bottom: 15px;
+      object-fit: cover;
+    }
+
+    .description {
+      display: flex;
+      gap: 10px;
+      font-size: 4.5rem;
+      justify-content: center;
+      margin-top: 10px;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      padding: 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .gallery img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      border-radius: 10px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+    }
+
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    footer a {
+      color: white;
+      margin: 0 10px;
+      font-size: 3rem;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: #ffcc00;
+    }
+
+    
+    .repost-button {
+      font-size: 3rem;
+      margin-top: 20px;
+      border: none;
+      background-color: #ffe066;
+      padding: 10px 20px;
+      border-radius: 50px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: transform 0.2s ease, background-color 0.3s ease;
+    }
+
+    .repost-button:hover {
+      transform: scale(1.2);
+      background-color: #ffcc33;
+    }
+  </style>
+</head>
+<body>
+    
+  <!-- En-tête de profil -->
+  <div class="profile-header">
+    <img src="assets/img/monkeySelfie1.jpg" alt="Photo de profil" class="profile-picture">
+    <div class="description">
+   
+        </div>
+            <!-- Bouton pour accéder aux reposts -->
+            <button class="repost-button" onclick="redirectToReposts()">🐒</button>
+        </div>
+    </div>
+  </div>
+
+  <!-- Galerie de reposts -->
+  <div class="gallery" id="repost-gallery">
+    <!-- Les reposts seront chargés ici dynamiquement -->
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <a href="index.html">🏠</a>
+    <a href="profile.html">🐒</a>
+    <a href="#">🔍</a>
+  </footer>
+
+  <script>
+    const reposts = JSON.parse(localStorage.getItem("reposts")) || []; // Charger les reposts depuis localStorage
+
+    function loadReposts() {
+      const gallery = document.getElementById("repost-gallery");
+      gallery.innerHTML = "";
+      reposts.forEach(repost => {
+        const repostHTML = `
+          <img src="${repost.image}" alt="Repost Image">
+        `;
+        gallery.innerHTML += repostHTML;
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", loadReposts);
+    
+    function redirectToReposts() {
+      window.location.href = "profile.html"; // Redirige vers la page des reposts
+    }
+  </script>
+</body>
+</html>

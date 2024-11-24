@@ -4,10 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reels</title>
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-  >
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
       margin: 0;
@@ -20,32 +17,34 @@
       align-items: center;
     }
 
-    .navbar {
-      width: 100%;
+    .home-button {
       position: fixed;
-      top: 0;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 10;
-      display: flex;
-      justify-content: space-between;
-      padding: 10px 20px;
-    }
-
-    .navbar a {
-      color: white;
+      top: 10px;
+      left: 10px;
       font-size: 2.5rem;
-      text-decoration: none;
+      background: rgba(0, 0, 0, 0.5);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      z-index: 1000;
     }
 
-    .navbar a:hover {
-      transform: scale(1.2);
-      transition: transform 0.2s ease;
+    .home-button:hover {
+      background: rgba(0, 0, 0, 0.8);
     }
 
     .reel-container {
-      height: 100vh;
-      width: 100%;
       position: relative;
+      width: 100%;
+      height: calc(100vw * 9 / 16); /* Ratio 16:9 */
+      max-height: 100vh;
+      background-color: black;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -54,13 +53,12 @@
     .reel-video {
       width: 100%;
       height: 100%;
-      object-fit: contain; /* Ajuste la vidéo pour qu'elle tienne dans l'écran */
-      background-color: black; /* Fond noir pour les vidéos non plein écran */
+      object-fit: contain;
     }
 
     .controls {
       position: absolute;
-      bottom: 10%;
+      bottom: 5%;
       width: 100%;
       display: flex;
       justify-content: center;
@@ -79,6 +77,72 @@
     .controls button:hover {
       transform: scale(1.2);
       transition: transform 0.2s ease;
+    }
+
+    .comments-section {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      max-height: 30vh;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      overflow-y: auto;
+      padding: 10px;
+      display: none; /* Masqué par défaut */
+    }
+
+    .comments-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .comments-header h4 {
+      margin: 0;
+    }
+
+    .close-button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .close-button:hover {
+      color: red;
+    }
+
+    .comment {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+    }
+
+    .comment img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+
+    .emoji-picker {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .emoji-picker button {
+      font-size: 1.8rem;
+      border: none;
+      background: none;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .emoji-picker button:hover {
+      transform: scale(1.2);
     }
 
     .nav-buttons {
@@ -103,84 +167,142 @@
     .nav-buttons button:hover {
       background: rgba(0, 0, 0, 0.8);
     }
+
+    .banana {
+      position: absolute;
+      font-size: 4rem;
+      animation: fall 3s ease-in-out;
+      z-index: 9999;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-100%) rotate(0deg);
+        opacity: 1;
+      }
+      50% {
+        transform: translateY(50vh) rotate(180deg);
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
   </style>
 </head>
 <body>
-  <!-- Navbar -->
-  <div class="navbar">
-    <a href="index.html">🏠</a>
-    <a href="#">📹</a>
-  </div>
+  <button class="home-button" onclick="goHome()">🏠</button>
 
-  <!-- Reel Container -->
   <div class="reel-container">
-    <video class="reel-video" autoplay muted loop>
+    <video class="reel-video" autoplay controls>
       <source src="assets/videos/video1.mp4" type="video/mp4">
     </video>
 
     <!-- Boutons d'interaction -->
     <div class="controls">
-      <button class="like-button">🍌</button>
-      <button class="comment-button">🙉</button>
+      <button class="like-button" onclick="generateBananas()">🍌</button>
+      <button class="comment-button" onclick="toggleComments()">🙉</button>
       <button class="share-button">🔄</button>
+    </div>
+
+    <!-- Section des commentaires -->
+    <div class="comments-section" id="comments-section">
+      <div class="comments-header">
+        <h4>Comments</h4>
+        <button class="close-button" onclick="hideComments()">✖</button>
+      </div>
+      <div id="comment-list">
+        <!-- Les commentaires s'afficheront ici -->
+      </div>
+      <div class="emoji-picker">
+        <button onclick="addComment('😂')">😂</button>
+        <button onclick="addComment('🙉')">🙉</button>
+        <button onclick="addComment('🍌')">🍌</button>
+        <button onclick="addComment('❤️')">❤️</button>
+        <button onclick="addComment('🔥')">🔥</button>
+        <button onclick="addComment('😎')">😎</button>
+        <button onclick="addComment('🐒')">🐒</button>
+      </div>
     </div>
 
     <!-- Boutons de navigation -->
     <div class="nav-buttons">
-      <button class="prev-button">⏪</button>
-      <button class="next-button">⏩</button>
+      <button class="prev-button" onclick="loadVideo(currentIndex - 1)">⏪</button>
+      <button class="next-button" onclick="loadVideo(currentIndex + 1)">⏩</button>
     </div>
   </div>
 
   <script>
-    // Liste des vidéos
     const videos = [
       "assets/videos/video1.mp4",
       "assets/videos/video2.mp4",
       "assets/videos/video3.mp4"
     ];
-
+    const comments = {
+      0: ["😂", "🍌", "🙉"],
+      1: ["🔥", "❤️"],
+      2: ["🐒", "😎", "🥳"]
+    };
     let currentIndex = 0;
     const videoElement = document.querySelector(".reel-video");
 
-    // Charger une vidéo par index
     function loadVideo(index) {
-      currentIndex = (index + videos.length) % videos.length; // Cycle les vidéos
+      currentIndex = (index + videos.length) % videos.length;
       videoElement.src = videos[currentIndex];
       videoElement.play();
+      hideComments(); // Masquer les commentaires lors du changement de vidéo
     }
 
-    // Navigation entre les vidéos
-    document.querySelector(".prev-button").addEventListener("click", () => loadVideo(currentIndex - 1));
-    document.querySelector(".next-button").addEventListener("click", () => loadVideo(currentIndex + 1));
+    function goHome() {
+      window.location.href = "index.html";
+    }
 
-    // Gestion du bouton "like"
-    document.querySelector(".like-button").addEventListener("click", () => {
-      alert("🍌 Like !");
-    });
+    function toggleComments() {
+      const commentsSection = document.getElementById("comments-section");
+      commentsSection.style.display = commentsSection.style.display === "none" || !commentsSection.style.display
+        ? "block"
+        : "none";
+      displayComments();
+    }
 
-    // Gestion du bouton "comment"
-    document.querySelector(".comment-button").addEventListener("click", () => {
-      alert("🙉 Comment !");
-    });
+    function hideComments() {
+      const commentsSection = document.getElementById("comments-section");
+      commentsSection.style.display = "none";
+    }
 
-    // Gestion du bouton "repost"
-    document.querySelector(".share-button").addEventListener("click", () => {
-      const userId = 1; // Exemple d'utilisateur fictif
-      const videoPath = videos[currentIndex]; // Vidéo actuelle
+    function displayComments() {
+      const commentList = document.getElementById("comment-list");
+      commentList.innerHTML = comments[currentIndex]
+        .map(comment => `<div class="comment"><img src="assets/img/monkeySelfie1.jpg" alt="User"><span>${comment}</span></div>`)
+        .join("");
+    }
 
-      // Appel au backend pour enregistrer le repost
-      fetch("repost_video.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ user_id: userId, video_path: videoPath }),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.success) alert("🔄 Reposté !");
-          else alert("❌ Erreur : " + data.error);
-        })
-        .catch((error) => console.error("Erreur :", error));
+    function addComment(emoji) {
+      comments[currentIndex].push(emoji);
+      displayComments();
+    }
+
+    function createFallingBanana() {
+      const banana = document.createElement("div");
+      banana.classList.add("banana");
+      banana.textContent = "🍌";
+      const randomX = Math.random() * window.innerWidth;
+      const randomY = window.scrollY;
+      banana.style.left = `${randomX}px`;
+      banana.style.top = `${randomY}px`;
+      document.body.appendChild(banana);
+      setTimeout(() => banana.remove(), 3000);
+    }
+
+    function generateBananas() {
+      const bananaCount = Math.floor(Math.random() * 31) + 20;
+      for (let i = 0; i < bananaCount; i++) {
+        setTimeout(createFallingBanana, i * 50);
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      loadVideo(0); // Charger la première vidéo
     });
   </script>
 </body>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎮 Jeu de Bananes</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5; /* Gris pâle */
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+    }
+
+    .game-container {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .game-title {
+      position: absolute;
+      top: 20px;
+      text-align: center;
+      font-size: 3rem;
+      font-weight: bold;
+      color: #ffcc00;
+      z-index: 10;
+    }
+
+    .banana {
+      position: absolute;
+      font-size: 4rem;
+      cursor: pointer;
+      animation: moveBanana 5s linear infinite;
+    }
+
+    @keyframes moveBanana {
+      0% {
+        transform: translate(0, 0);
+      }
+      100% {
+        transform: translate(calc(100vw - 100px), calc(100vh - 100px));
+      }
+    }
+
+    .score {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      font-size: 2rem;
+      color: #333;
+    }
+
+    .close-button {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 2rem;
+      color: white;
+      background-color: #ff4c4c;
+      border: none;
+      border-radius: 50%;
+      padding: 10px;
+      cursor: pointer;
+      z-index: 10;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .close-button:hover {
+      background-color: #ff0000;
+    }
+  </style>
+</head>
+<body>
+  <div class="game-container">
+    <h1 class="game-title">🍌 Attrape les Bananes !</h1>
+    <button class="close-button" onclick="goBack()">✖</button>
+    <div class="score" id="score">Score : 0</div>
+  </div>
+
+  <script>
+    let score = 0;
+
+    function createBanana() {
+      const banana = document.createElement("div");
+      banana.classList.add("banana");
+      banana.textContent = "🍌";
+
+      const randomX = Math.random() * (window.innerWidth - 100);
+      const randomY = Math.random() * (window.innerHeight - 100);
+
+      banana.style.left = `${randomX}px`;
+      banana.style.top = `${randomY}px`;
+
+      banana.style.animationDuration = `${Math.random() * 3 + 2}s`; // Durée aléatoire entre 2 et 5 secondes
+
+      banana.addEventListener("click", () => {
+        score++;
+        document.getElementById("score").textContent = `Score : ${score}`;
+        banana.remove();
+      });
+
+      document.body.appendChild(banana);
+
+      setTimeout(() => {
+        if (document.body.contains(banana)) {
+          banana.remove(); // Supprimer la banane si elle n'est pas cliquée
+        }
+      }, 5000); // Retirer après 5 secondes
+    }
+
+    function startGame() {
+      setInterval(createBanana, 1000); // Crée une nouvelle banane toutes les secondes
+    }
+
+    function goBack() {
+      window.location.href = "index.html"; // Retour à l'accueil
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      startGame();
+    });
+  </script>
+</body>
+</html>
